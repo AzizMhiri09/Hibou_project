@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext,useState } from 'react'
 import axios from 'axios'
 import { base_url } from '../utils/config'
 import {toast} from 'react-hot-toast'
 import img1 from './components/ii.jpg' 
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import storeContext from '../context/storeContext'
+import { useNavigate } from 'react-router-dom'
+
 
 const Register = () => {
   
+  const navigate = useNavigate()
+ const {dispatch} = useContext(storeContext)
   const [state , setState] = useState({
-    username : '',
+    username : "",
     email : '',
     password : ''
   })
@@ -19,14 +24,19 @@ const Register = () => {
       [e.target.name] : e.target.value 
     })
   }
- const submit =  async(e)=>{
+  const[loader,setLoader]=useState(false)
+  const submit =  async(e)=>{
     e.preventDefault()
     try{
-      const{data} = await axios.post(`${base_url}/api/auth/user/register`, state)
-     localStorage.setItem('token',data.token)
+      setLoader(true)
+      const{data} = await axios.post(`${base_url}/api/auth/user/Register`, state)
+      setLoader(false)
+      localStorage.setItem('token',data.token)
      toast.success(data.message)
+     dispatch({type : "register_success",payload : {token :data.token }})
+     navigate('/Create')
     }catch(error){
-          console.log(error) 
+          setLoader(false)
           toast.error(error.response.data.message)
     }
   }
@@ -55,6 +65,7 @@ const Register = () => {
             <p className='mb-4'>
               Create your account , its only take a minute
             </p>
+            
             <form  onSubmit={submit}>
               <div className='grid  gap-5 w-full'>
                 <input

@@ -7,7 +7,7 @@ import { login_dto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/user/register')
+  @Post('/user/Register')
  async register(@Body() CreateUserDto: CreateUserDto) : 
  Promise<{token : string , message : string}> {
     

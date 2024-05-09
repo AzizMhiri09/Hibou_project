@@ -5,12 +5,14 @@ import Login from './pages/Login'
 import Nav from './pages/components/Nav'
 import Acceuil from './pages/acceuil/Acceuil'
 import Create from './pages/Create/Create'
+import Table from './pages/Table/Table'
+import Support from './Support/Support'
 
 function App() {
 
 
   return (
-   <>
+   <> 
    <BrowserRouter>
    <Routes>
     <Route path='/Register'
@@ -32,6 +34,16 @@ function App() {
    element = {<Create />}
    
    />
+   <Route path='/Post'
+   element = {<Table />} 
+
+   />
+   
+   <Route path='/Support'
+   element ={<Support />}
+   
+   />
+   
    
    </Routes>
    </BrowserRouter>

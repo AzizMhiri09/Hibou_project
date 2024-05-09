@@ -1,15 +1,16 @@
 
 import img2 from './components/oo.jpg'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { base_url } from '../utils/config'
 import {toast} from 'react-hot-toast'
 import Footer from './components/Footer'
-
+import storeContext from '../context/storeContext'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
  
- 
- 
+ const navigate = useNavigate()
+ const {dispatch} = useContext(storeContext)
   const [state , setState] = useState({
     
     email : '',
@@ -21,14 +22,19 @@ const Login = () => {
       [e.target.name] : e.target.value 
     })
   }
- const submit =  async(e)=>{
+ const[loader,setLoader]=useState(false)
+  const submit =  async(e)=>{
     e.preventDefault()
     try{
+      setLoader(true)
       const{data} = await axios.post(`${base_url}/api/auth/user/Login`, state)
-     localStorage.setItem('token',data.token)
+      setLoader(false)
+      localStorage.setItem('token',data.token)
      toast.success(data.message)
+     dispatch({type : "login_success",payload : {token :data.token }})
+     navigate('/Create')
     }catch(error){
-          console.log(error) 
+          setLoader(false)
           toast.error(error.response.data.message)
     }
   }
@@ -72,7 +78,7 @@ const Login = () => {
         
        </div>
         
-        <button className='w-full py-2 my-4 text-white bg-[#F4CE14] hover:bg-[#45474B]'>sign In</button>
+        <button disabled={loader} className='w-full py-2 my-4 text-white bg-[#F4CE14] hover:bg-[#45474B]'>{loader ?'loading...':'login'}</button>
         <p className='text-center text-black underline'> forgot your password ?</p>
         </form>
         <p className='text-center text-black underline'>sign Up</p>
