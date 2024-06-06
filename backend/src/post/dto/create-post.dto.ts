@@ -13,25 +13,28 @@ export class CreatePostDto {
      @IsEmpty({message : 'you cannot pass user id '})
      readonly user_id : mongoose.Schema.Types.ObjectId
 
-    // @IsNotEmpty()
+     @IsNotEmpty()
     readonly MonitoringName : string
 
-    // @IsNotEmpty()
-    // readonly date : string
+     @IsNotEmpty()
+     readonly date : string
 
-    // @IsNotEmpty()
+     @IsNotEmpty()
     
-    // readonly size : string 
-    // @IsNotEmpty()
-    // @IsNotEmpty()
-    // readonly time : string
-    // @IsNotEmpty()
-    // readonly BrowserName : string
-    // @IsNotEmpty()
-    // readonly type :string
+     readonly size : string 
+     @IsNotEmpty()
+     @IsNotEmpty()
+     readonly time : string
+     @IsNotEmpty()
+     readonly BrowserName : string
+     @IsNotEmpty()
+     readonly type :string
+
+
+   //  @IsNotEmpty({ message: 'files is required' })
+    //@IsFile()
+    // files: string;
    
-    // @IsNotEmpty()
-    // @IsFile()
-    // scriptName : string
+    
 
 }

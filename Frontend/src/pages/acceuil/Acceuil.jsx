@@ -4,6 +4,8 @@ import image from '../acceuil/oo.jpg'
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from '../components/Footer'
+import Service from '../acceuil/Service'
+import Now from '../acceuil/Now'
 
 
 
@@ -23,7 +25,15 @@ const Acceuil = () => {
     </div>
     <img  className='w-96 'src={image} alt='bird'/>
     </div>
-  
+<div>
+  <Service/>
+</div>
+    
+      
+   <div>
+    <Now />
+   </div>
+   
     
    
     

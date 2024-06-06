@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import NavBar from './NavBar'
 import Footer from '../components/Footer'
 import { BsEyeFill } from "react-icons/bs"
-import { BsFillPencilFill } from "react-icons/bs";
+import { BsFillPencilFill} from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs"
 import Navvv from '../Create/Navvv';
 import axios from 'axios';
 import { base_url } from '../../utils/config';
 import storeContext from '../../context/storeContext';
+import {toast} from 'react-hot-toast'
 
 
 
@@ -38,7 +40,22 @@ const Table = () => {
   
   },[])
   
+  const delete_Post = async (postId) => {
+  try {
+    setLoader(true)
+    const {data} = await axios.delete(`${base_url}/api/post/delete/${postId}`,{
+     headers : {
+   Authorization : `Bearer ${stateData.store.token}`
+ }  
+  })
+  toast.success(data.message)
+  }catch (error){
+  toast.error(error.response.data.message)
+
+  }
   
+  } 
+
   return (
     <div>
       <Navvv />
@@ -51,14 +68,20 @@ const Table = () => {
       <h1 className='font-bold text-[#45474B] text-3xl'>
         Home Page
       </h1>
+        
+
+         
+       
         <table className='w-[80%] text-center overflow-hidden overflow-y-scroll mt-8'>
-            <thead className='border-b bg-[#495E57]'>
+          
+        
+         <thead className='border-b bg-[#495E57]'>
                 <tr>
                     <th className='text-sm font-meduim text-white px-6 py-4'>
 Monitoring Name
                     </th>
                     <th className='text-sm font-meduim text-white px-6 py-4'>
-Date
+ScriptName
                     </th>
                     <th className='text-sm font-meduim text-white px-6 py-4'>
 Handle
@@ -71,26 +94,31 @@ Handle
 
             </thead>
             <tbody>
-              <tr className='bg-white border-b'>
-                <td className='px-6 py-4 whitespace-nowrap text-sm font-meduim text-gray-900'>
-test
+              {
+                posts.map((p,i) =>(
+                
+             
+              <tr className='bg-white border-b' key={p._id}>
+                <td className='px-6 py-4 whitespace-nowrap text-lg font-meduim text-gray-900'>
+{p.MonitoringName}
                 </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm font-meduim text-gray-900'>
-test
+                <td className='px-6 py-4 whitespace-nowrap text-lg font-meduim text-gray-900'>
+{p.files.originalname}
                 </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm font-meduim text-gray-900'>
+                <td className='px-6 py-4 whitespace-nowrap text-lg font-meduim text-gray-900'>
                <span className='flex justify-center  gap-x-4'>
                 <BsEyeFill/>
-                <BsFillPencilFill />
+                <BsFillTrashFill onClick={() =>delete_Post(p._id)} />
                 </span>
-                </td>
+                </td> 
                
                
               </tr>
+            ))}
             </tbody>
-
+  
         </table>
-
+      
       </div>
 
 

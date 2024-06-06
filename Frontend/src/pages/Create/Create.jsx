@@ -5,6 +5,8 @@ import { base_url } from '../../utils/config'
 import axios from 'axios'
 
 import storeContext from '../../context/storeContext'
+import toast from 'react-hot-toast'
+
 
 
 const Create = () => {
@@ -46,13 +48,13 @@ const [files , setFiles] = useState('')
      
     const formData = new FormData()
     formData.append('MonitoringName',state.MonitoringName)
-    // formData.append('date',state.date)
-    // formData.append('size',state.size)
-    // formData.append('time',state.time)
-    // formData.append('BrowserName',state.BrowserName)
-    // formData.append('scriptName',"script.mjs") 
-    // // formData.append('files',state.scriptFile)
-    // formData.append('type',state.type)
+     formData.append('date',state.date)
+     formData.append('size',state.size)
+     formData.append('time',state.time)
+     formData.append('BrowserName',state.BrowserName)
+   
+    formData.append('files',state.files)
+     formData.append('type',state.type)
     
     
     try{
@@ -62,12 +64,13 @@ const [files , setFiles] = useState('')
         Authorization : `Bearer ${store.token}`
         }
       }) 
-
+      toast.success(data.message)
      } catch ( error){
-console.log(error.response.data)
+toast.error(error.response.data.message)
      }
      
   }
+
   
 
 
@@ -77,7 +80,7 @@ console.log(error.response.data)
     <div className='px-6 sm:w-2/4 lg:w-1/2 mx-auto pb-8  '>
         <div className='bg-[#F0F1F1] rounded-lg shadow-2xl shadow-black mt-24 py-10 md:py-12 px-4 md:px-4 '>
       
-        <form  className='px-4 w-full space-y-3' onSubmit={add}>
+        <form  className='px-4 w-full space-y-3' onSubmit={add}  enctype="multipart/form-data" >
         <p>monitoring name : </p>
         <input className='border p-2 mr-7 text-black'
          type="text"

@@ -6,12 +6,17 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { post_model, post_schema } from './schema/post.schema';
-import { MulterModule } from '@nestjs/platform-express';
+import { MulterConfigModule } from './multer.config';
+
+
+
+
 
 @Module({
   imports : [
-    MulterModule.register(),
+   
    AuthModule ,
+   MulterConfigModule,
    NestjsFormDataModule,
    ConfigModule,
    MongooseModule.forFeature([

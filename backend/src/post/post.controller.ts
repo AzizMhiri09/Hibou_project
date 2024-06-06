@@ -18,12 +18,16 @@ export class PostController {
 
   @Post('/Create')
   @UseGuards(AuthGuard())
-  // @UseInterceptors(FileInterceptor('files'))
-  async create(@Body() createPostDto: CreatePostDto , @Req() req   ): Promise<{post:post 
-    , message:string}> {
-      console.log(createPostDto)
-      return this.postService.create(createPostDto, req.user ) ; 
-  }
+ @UseInterceptors(FileInterceptor('files'))
+ 
+  async create(@Body() createPostDto: CreatePostDto , @UploadedFile() files: Express.Multer.File  ,@Req() req ): Promise<{post:post 
+    , message:string}> { 
+    
+      
+      return this.postService.create(createPostDto ,req.user, files) ; 
+        
+    }
+  
 
   @Get('/Post')
   @UseGuards(AuthGuard())
@@ -32,7 +36,7 @@ export class PostController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) {  
     return this.postService.findOne(+id);
   }
 
@@ -41,8 +45,10 @@ export class PostController {
     return this.postService.update(+id, updatePostDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  @Delete('/delete/:postId')
+  @UseGuards(AuthGuard())
+    remove(@Param('postId') postId: string) : Promise <{post : post , message:string }> {
+    
+      return this.postService.delete_post_by_user(postId);
   }
 }

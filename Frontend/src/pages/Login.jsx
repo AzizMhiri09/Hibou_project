@@ -32,7 +32,7 @@ const Login = () => {
       localStorage.setItem('token',data.token)
      toast.success(data.message)
      dispatch({type : "login_success",payload : {token :data.token }})
-     navigate('/Create')
+     navigate('/Post')
     }catch(error){
           setLoader(false)
           toast.error(error.response.data.message)
